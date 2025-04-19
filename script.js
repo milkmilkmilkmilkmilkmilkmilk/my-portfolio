@@ -41,7 +41,7 @@ function handleAnswer(answer) {
             contentHTML = "<p>Чем я занимаюсь и что мне нравится делать в программировании. за что я возьмусь, за что нет.</p>";
             break;
         case '3':
-            responseText = "Вот мои работы: <a href='#' style='color:#fff;'>[ссылка на проекты]</a>";
+            responseText = "Вот мои работы:";
             contentHTML = "<p>Блок с сайтами, краткое описание</p>";
             break;
         case '4':
@@ -105,12 +105,16 @@ function typeWriterEffect(text, element, speed = 50) {
 function goBack() {
     const mainSection = document.getElementById("main-section");
     const contentSection = document.getElementById("content-section");
+    const contentContainer = document.getElementById("content");
 
     // Скрываем секцию с контентом
     contentSection.style.display = "none";
     
     // Показываем главную секцию
     mainSection.style.display = "block";
+
+    // Очищаем старый контент
+    contentContainer.innerHTML = "";
 }
 
 function goNext() {
@@ -120,3 +124,11 @@ function goNext() {
         handleAnswer(nextAnswer.toString());
     }
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    const img = document.querySelector('.profile-image');
+    setTimeout(() => {
+        img.classList.add('show');
+    }, 1500); // через 1.5 секунды, после появления текста
+});
+

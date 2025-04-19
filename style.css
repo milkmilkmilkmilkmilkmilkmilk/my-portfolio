@@ -17,6 +17,9 @@ body {
 }
 
 section {
+    padding: 0;
+    margin: 0;
+    padding-bottom: 250px;
     text-align: center;
     opacity: 0;
     animation: fadeIn 2s ease-in-out forwards;
@@ -140,5 +143,36 @@ p {
 @keyframes blink-caret {
     50% {
         border-color: transparent;
+    }
+}
+
+#response-text {
+    margin-bottom: 15px;
+}
+
+
+.profile-image {
+    position: relative;
+    width: 150px;
+    height: 210px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: all 1s ease;
+    animation: slideDown 1.5s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+.profile-image.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+@keyframes slideDown {
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
