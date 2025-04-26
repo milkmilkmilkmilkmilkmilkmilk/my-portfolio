@@ -36,7 +36,7 @@ createApp({
         },
         5: {
           text: "Вот мои контакты:",
-          content: "<p>Email: <a href='mailto:ahoney.froggy@gmail.com' style='color: #fff;'>ahoney.froggy@gmail.com</a><br>LinkedIn: <a href='https://linkedin.com' target='_blank' style='color: #fff;'>LinkedIn профиль</a></p>"
+          content: "<p>Email: <a href='mailto:ahoney.froggy@gmail.com' style='color: #fff;'>ahoney.froggy@gmail.com</a><br>LinkedIn: <a href='https://t.me/nxoxtxhxixnxgxexlxsxe' target='_blank' style='color: #fff;'>Тэгэшка</a></p>"
         }
       },
       currentAnswer: 0
