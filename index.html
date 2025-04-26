@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>TAD Profile Site</title>
+  <meta charset="UTF-8">
+  <title>TAD Profile Site</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/vue@3"></script>
 </head>
 <body>
-    <header>
-    </header>
+  <div id="app">
+    <header></header>
 
-    <!-- Главная секция с вопросами -->
-    <section id="main-section" class="section">
-        <img src="/img/mymyamyamya.PNG" alt="Profile Picture" class="profile-image" />
-        <h1>Привет, Я Артём, веб-разработчик</h1>
-        <p>Front End Developer / WordPress Expert</p>
-
-        <!-- Диалоговое окно -->
-        <div class="dialog" id="dialog">
-            <p id="question">Что бы вы хотели узнать обо мне?</p>
-            <div id="answers">
-                <span class="answer-btn" data-answer="1">Что здесь черт возьми происходит?</span>
-                <span class="answer-btn" data-answer="2">Узнать вас поподробней</span>
-                <span class="answer-btn" data-answer="3">Я бы хотел(-а) глянуть что вы там делали</span>
-                <span class="answer-btn" data-answer="4">Эммм... я оказался(-ась) не на том сайте.</span>
-                <span class="answer-btn" data-answer="5">НЕТ ВРЕМЕНИ СРОЧНО ДАЙТЕ МНЕ СВОИ КОНТАКТЫ!!!</span>
-            </div>
-        </div>
-    </section>  
-
-    <!-- Секция с контентом после выбора вопроса -->
-    <div id="content-section" style="display: none;">
-        <div id="response-text"></div> <!-- Здесь будет отображаться текст с эффектом печатающей машинки -->
-        <div id="content"></div>
-        <button id="back-btn" style="display: none;">Назад</button>
-        <button id="next-btn" style="display: none;">Вперед</button>
+    <!-- Картинка -->
+    <div v-if="showImage" class="image-container">
+      <img src="/img/mymyamyamya.PNG" alt="Profile Picture" class="profile-image">
     </div>
-    
 
-    <footer>
-    </footer>
+    <!-- Главная секция -->
+    <section v-if="showMain" class="section">
+      <h1>Привет, Я Артём, Веб-разработчик</h1>
+      <p>Front End Developer / WordPress Expert</p>
 
-    <script src="script.js"></script>
+      <div class="dialog">
+        <p>Что бы вы хотели узнать обо мне?</p>
+        <div id="answers">
+          <span class="answer-btn" v-for="(text, idx) in questions" :key="idx" @click="selectAnswer(idx + 1)">
+            {{ text }}
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция с ответами -->
+    <section v-else class="section">
+      <div class="response-text">
+        {{ typedText }}
+      </div>
+      <div v-if="showContent" class="content" v-html="contentHTML"></div>
+
+      <div class="buttons">
+        <button id="back-btn" @click="goBack">Назад</button>
+        <button id="next-btn" @click="goNext">Вперёд</button>
+      </div>
+    </section>
+
+    <footer></footer>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

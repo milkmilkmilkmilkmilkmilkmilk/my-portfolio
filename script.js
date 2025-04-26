@@ -1,134 +1,85 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const answerButtons = document.querySelectorAll(".answer-btn");
-    
-    answerButtons.forEach(button => {
-        button.addEventListener("click", (event) => {
-            const answer = event.target.dataset.answer;
-            handleAnswer(answer);
-        });
-    });
-});
+const { createApp } = Vue;
 
-let currentAnswer = 0;  // Переменная для хранения текущего ответа
-
-function handleAnswer(answer) {
-    const mainSection = document.getElementById("main-section");
-    const dialogSection = document.getElementById("dialog");
-    const contentSection = document.getElementById("content-section");
-    const contentContainer = document.getElementById("content");
-    const backBtn = document.getElementById("back-btn");
-    const nextBtn = document.getElementById("next-btn");
-
-    // Прячем главную секцию
-    mainSection.style.display = "none";
-
-    // Показываем секцию с контентом
-    contentSection.style.display = "block";
-    
-    // Обновляем контент в зависимости от выбранного ответа
-    let responseText = "";
-    let contentHTML = "";
-
-    currentAnswer = answer;
-
-    switch(answer) {
-        case '1':
-            responseText = "О, вам интересно, что происходит? Давайте разбираться!";
-            contentHTML = "<p>Описание сайта, концепция работы.</p>";
-            break;
-        case '2':
-            responseText = "Я веб-разработчик с опытом в HTML, CSS, JavaScript и WordPress.";
-            contentHTML = "<p>Чем я занимаюсь и что мне нравится делать в программировании. за что я возьмусь, за что нет.</p>";
-            break;
-        case '3':
-            responseText = "Вот мои работы:";
-            contentHTML = "<p>Блок с сайтами, краткое описание</p>";
-            break;
-        case '4':
-            responseText = "Похоже, вы ошиблись сайтом. Но если хотите, можем поболтать!";
-            contentHTML = "<p>Интересные статьи и немного рекламы себя.</p>";
-            break;
-        case '5':
-            responseText = "Вот мои контакты:";
-            contentHTML = `
-             <p>
-                <a href='mailto:ahoney.froggy@gmail.com' style='color:#fff;'>Email: ahoney.froggy@gmail.com</a>
-                или 
-                <a href='https://t.me/nxoxtxhxixnxgxexlxsxe' target='_blank' style='color:#fff;'>Telegram</a>
-            </p>
-                        `;
-            break;
-        default:
-            responseText = "Что бы вы хотели узнать обо мне?";
-            contentHTML = "<p>Это секция по умолчанию.</p>";
-            break;
-    }
-
-    // Обновляем текст с эффектом печатающей машинки
-    const questionText = document.getElementById("response-text");
-    typeWriterEffect(responseText, questionText);
-    setTimeout(() => {
-    contentContainer.innerHTML = contentHTML;
-    }, responseText.length * 50 + 500); // 50 мс на символ + небольшая пауза
-
-
-    // Кнопка "Назад"
-    backBtn.style.display = "inline-block";
-    backBtn.addEventListener("click", goBack);
-
-    // Кнопка "Вперед"
-    nextBtn.style.display = "inline-block";
-    nextBtn.addEventListener("click", goNext);
-}
-
-function typeWriterEffect(text, element, speed = 50) {
-    element.innerHTML = ""; // Очистим перед анимацией
-    let i = 0;
-    const cursor = document.createElement("span");
-    cursor.className = "typing-cursor";
-    element.appendChild(cursor);
-
-    function typeChar() {
-        if (i < text.length) {
-            const span = document.createElement("span");
-            span.textContent = text.charAt(i);
-            element.insertBefore(span, cursor);
-            i++;
-            setTimeout(typeChar, speed);
+createApp({
+  data() {
+    return {
+      showImage: false,
+      showMain: true,
+      typedText: "",
+      fullText: "",
+      showContent: false,
+      contentHTML: "",
+      typingIndex: 0,
+      questions: [
+        "Что здесь черт возьми происходит?",
+        "Узнать вас поподробней",
+        "Я бы хотел глянуть что вы там делали",
+        "Эммм... я оказался не на том сайте.",
+        "НЕТ ВРЕМЕНИ СРОЧНО ДАЙТЕ МНЕ СВОИ КОНТАКТЫ!!!"
+      ],
+      answers: {
+        1: {
+          text: "О, вам интересно, что происходит? Давайте разбираться!",
+          content: "<p>Здесь будет объяснение того, что происходит на сайте.</p>"
+        },
+        2: {
+          text: "Я веб-разработчик с опытом в HTML, CSS, JavaScript и WordPress.",
+          content: "<p>Описание опыта работы и навыков.</p>"
+        },
+        3: {
+          text: "Вот мои работы:",
+          content: "<ul><li>Проект 1</li><li>Проект 2</li><li>Проект 3</li></ul>"
+        },
+        4: {
+          text: "Похоже, вы ошиблись сайтом. Но если хотите, можем поболтать!",
+          content: "<p>Можем поговорить о технологиях, обучении или проектах.</p>"
+        },
+        5: {
+          text: "Вот мои контакты:",
+          content: "<p>Email: <a href='mailto:ahoney.froggy@gmail.com' style='color: #fff;'>ahoney.froggy@gmail.com</a><br>LinkedIn: <a href='https://linkedin.com' target='_blank' style='color: #fff;'>LinkedIn профиль</a></p>"
         }
-    }
-
-    typeChar();
-}
-
-
-function goBack() {
-    const mainSection = document.getElementById("main-section");
-    const contentSection = document.getElementById("content-section");
-    const contentContainer = document.getElementById("content");
-
-    // Скрываем секцию с контентом
-    contentSection.style.display = "none";
-    
-    // Показываем главную секцию
-    mainSection.style.display = "block";
-
-    // Очищаем старый контент
-    contentContainer.innerHTML = "";
-}
-
-function goNext() {
-    const nextAnswer = currentAnswer + 1;
-    // Если есть следующий ответ
-    if (nextAnswer <= 5) {
-        handleAnswer(nextAnswer.toString());
-    }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-    const img = document.querySelector('.profile-image');
+      },
+      currentAnswer: 0
+    };
+  },
+  mounted() {
     setTimeout(() => {
-        img.classList.add('show');
-    }, 1500); // через 1.5 секунды, после появления текста
-});
-
+      this.showImage = true;
+    }, 500); // Плавное появление картинки
+  },
+  methods: {
+    selectAnswer(answerId) {
+      this.currentAnswer = answerId;
+      this.showMain = false;
+      this.typedText = "";
+      this.showContent = false;
+      this.fullText = this.answers[answerId].text;
+      this.contentHTML = this.answers[answerId].content;
+      this.typingIndex = 0;
+      this.startTyping();
+      this.showImage = false;
+    },
+    startTyping() {
+      if (this.typingIndex < this.fullText.length) {
+        this.typedText += this.fullText[this.typingIndex];
+        this.typingIndex++;
+        setTimeout(this.startTyping, 50);
+      } else {
+        // После завершения печатания показываем контент
+        this.showContent = true;
+      }
+    },
+    goBack() {
+      this.showMain = true;
+      this.typedText = "";
+      this.showContent = false;
+      this.showImage = true;
+    },
+    goNext() {
+      const nextAnswer = this.currentAnswer + 1;
+      if (nextAnswer <= Object.keys(this.answers).length) {
+        this.selectAnswer(nextAnswer);
+      }
+    }
+  }
+}).mount('#app');
